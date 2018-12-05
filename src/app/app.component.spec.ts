@@ -12,11 +12,14 @@ import {GitHubService} from './git-hub.service';
 
 
 describe('AppComponent', () => {
-  const title = 'Stars Material';
+  const title = 'ng-tdd';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, RouterTestingModule, MatButtonModule, MatIconModule, MatMenuModule, MatRadioModule, MatInputModule, MatListModule, MatToolbarModule],
+      imports: [
+        FormsModule, RouterTestingModule, MatButtonModule, MatIconModule, MatMenuModule, MatRadioModule,
+        MatInputModule, MatListModule, MatToolbarModule
+      ],
       declarations: [
         AppComponent, ResultsListComponent, Convert2KPipe, TimeAgoPipe
       ],

@@ -1,5 +1,6 @@
-import {TestBed, getTestBed, inject} from '@angular/core/testing';
+import {TestBed, getTestBed, inject, async} from '@angular/core/testing';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {HttpClient} from '@angular/common/http';
 import {GitHubService} from './git-hub.service';
 import {of} from 'rxjs';
 
@@ -15,7 +16,8 @@ describe('Service: GitHubService - ', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [GitHubService],
+      providers: [GitHubService]
+        // {provide: GitHubService, useClass: FakeGithubService}]
     });
 
     injector = getTestBed();
@@ -36,18 +38,39 @@ describe('Service: GitHubService - ', () => {
     }
   ));
 
-  it('expects service to fetch data',
-    inject([HttpTestingController, GitHubService],
-      (httpMock: HttpTestingController, service: GitHubService) => {
-        service.get().subscribe(repos => {
-          debugger;
-          expect(repos.items.length).toBe(1);
-          expect(repos).toEqual(mockRepos);
+  // it('expects service to fetch data',
+  //   inject([HttpTestingController, GitHubService],
+  //     (httpMock: HttpTestingController, service: GitHubService) => {
+  //       service.get('http://api.github.com').subscribe(repos => {
+  //         debugger;
+  //         expect(repos.items.length).toBe(1);
+  //         expect(repos).toEqual(mockRepos);
+  //       });
+  //
+  //       service.get('http://api.github.com').subscribe();
+  //
+  //       const req = httpMock.expectOne('http://.../data/contacts');
+  //       expect(req.request.method).toEqual('GET');
+  //       req.flush(mockRepos);
+  //     })
+  // );
+
+  it(`should issue a request`,
+    // 1. declare as async test since the HttpClient works with Observables
+    async(
+      // 2. inject HttpClient and HttpTestingController into the test
+      inject([HttpClient, HttpTestingController], (http: HttpClient, backend: HttpTestingController) => {
+        // 3. send a simple request
+        http.get('/foo/bar').subscribe();
+
+        // 4. HttpTestingController supersedes `MockBackend` from the "old" Http package
+        // here two, it's significantly less boilerplate code needed to verify an expected request
+        backend.expectOne({
+          url: '/foo/bar',
+          method: 'GET'
         });
-        const req = httpMock.expectOne('http://.../data/contacts');
-        expect(req.request.method).toEqual('GET');
-        req.flush(mockRepos);
       })
+    )
   );
 
 // afterEach(inject([HttpTestingController], (httpMock: HttpTestingController) => {

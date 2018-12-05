@@ -7,20 +7,20 @@ import {AppMaterialModule} from './app-material/app-material.module';
 
 import {AppComponent} from './app.component';
 import {GitHubService, GsRequestInterceptor} from './git-hub.service';
+import {ResultsListComponent} from './results-list/results-list.component';
 import {MomentModule} from 'angular2-moment';
-// import {ResultsListComponent} from './results-list/results-list.component';
-// import {Convert2KPipe} from './convert2k/convert2k.pipe';
-// import {AboutComponent} from './about/about.component';
-// import {AppRoutingModule} from './app-routing.module';
+import {Convert2KPipe} from './convert2k/convert2k.pipe';
+import {AboutComponent} from './about/about.component';
+import {AppRoutingModule} from './app-routing.module';
 import 'hammerjs';
 import 'moment';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // ResultsListComponent,
-    // Convert2KPipe,
-    // AboutComponent,
+    ResultsListComponent,
+    Convert2KPipe,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +28,7 @@ import 'moment';
     HttpClientModule,
     BrowserAnimationsModule,
     MomentModule,
-    // AppRoutingModule,
+    AppRoutingModule,
     AppMaterialModule,
   ],
   providers: [
